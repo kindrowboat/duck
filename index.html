@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>🦆.to</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
+
+  <script type="text/javascript">
+    function load() {
+      const randomOffset = Math.floor(Math.random() * 999);
+      const giphyDuckApiUrl = `https://api.giphy.com/v1/gifs/search?api_key=KjkBAZyJ9fSmsDOn2uAg704CkDH0ETJS&q=duck&limit=1&offset=${randomOffset}&rating=G&lang=en`
+      fetch(giphyDuckApiUrl).then(function(response) {
+        return response.json();
+      })
+      .then(function(json) {
+        const imgSrc = json.data[0].images.original.url;
+        return fetch(imgSrc, {headers: { accept: 'image/*'}});
+      })
+      .then(function(response) {
+        return response.blob();
+      })
+      .then(function(duckBlob) {
+        const objectUrl = URL.createObjectURL(duckBlob);
+
+        const notDuckImg = document.querySelector('#not-duck');
+        const oneMoment = document.querySelector('#one-moment');
+        const subtitle = document.querySelector('#subtitle');
+
+        oneMoment.hidden = true;
+        notDuckImg.src = objectUrl;
+        subtitle.hidden = false;
+      });
+    }
+
+    window.onload = load;
+  </script>
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      font-family: 'Vibur', cursive;
+      background-color: rgb(252,242,202);
+    }
+    h1 {
+      text-align: center;
+    }
+    #pond {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      box-sizing: border-box;
+      padding: 20px;
+      height: 75vh;
+    }
+    #not-duck {
+      display: block;
+      max-height: 75vh;
+      height: auto;
+      max-width: 100%;
+      width: auto;
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body id="home">
+
+  <div id="pond">
+    <img id="not-duck" src="loading_duck.gif"/>
+  </div>
+  <h1 id="one-moment">un moment…</h1>
+	<h1 id="subtitle" hidden>Ce n'est pas un canard.</h1>
+
+</body>
+</html>
