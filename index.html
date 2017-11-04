@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>🦆.to</title>
+  <title>🦆.to</title>
 
   <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script type="text/javascript">
     function load() {
@@ -22,13 +23,13 @@
       .then(function(duckBlob) {
         const objectUrl = URL.createObjectURL(duckBlob);
 
-        const notDuckImg = document.querySelector('#not-duck');
-        const oneMoment = document.querySelector('#one-moment');
-        const subtitle = document.querySelector('#subtitle');
+        const stagingPond = document.querySelector('#staging-pond');
+        const productionPond = document.querySelector('#production-pond');
+        const notDuckImg = document.querySelector('#loaded-duck');
 
-        oneMoment.hidden = true;
         notDuckImg.src = objectUrl;
-        subtitle.hidden = false;
+        stagingPond.classList.add('hidden');
+        productionPond.classList.remove('hidden');
       });
     }
 
@@ -36,41 +37,61 @@
   </script>
 
   <style>
+    html, body {
+      height: 100%;
+    }
+
     body {
       padding: 0;
       margin: 0;
       font-family: 'Vibur', cursive;
       background-color: rgb(252,242,202);
     }
-    h1 {
-      text-align: center;
-    }
-    #pond {
+    .pond {
       display: flex;
+      flex-flow: column;
       align-items: center;
       align-content: center;
-      box-sizing: border-box;
-      padding: 20px;
-      height: 75vh;
+      margin: auto;
+      height: 100%;
     }
-    #not-duck {
+    .not-duck {
+      align-self: flex-start;
       display: block;
-      max-height: 75vh;
+      max-height: 80vh;
       height: auto;
-      max-width: 100%;
+      max-width: 94vw;
       width: auto;
       margin: auto;
+      margin-bottom: 0;
+    }
+    h1.msg {
+      display: block;
+      margin: auto;
+      margin-top: 5px;
+      text-align: center;
+      font-size: 9vmin;
+    }
+    .hidden {
+      display: none;
+    }
+    h1.msg.loading {
+      font-size: 9vmin;
     }
   </style>
 </head>
 
 <body id="home">
 
-  <div id="pond">
-    <img id="not-duck" src="loading_duck.gif"/>
+  <div id="staging-pond" class="pond">
+    <img id="loading-duck" class="not-duck" alt="loading not duck" src="loading_duck.gif"/>
+    <h1 class="msg loading" id="one-moment">un moment…</h1>
   </div>
-  <h1 id="one-moment">un moment…</h1>
-	<h1 id="subtitle" hidden>Ce n'est pas un canard.</h1>
+
+  <div id="production-pond" class="pond hidden">
+    <img id="loaded-duck" class="not-duck" alt="not duck" src="loading_duck.gif"/>
+    <h1 class="msg" id="subtitle">Ce n'est pas un canard.</h1>
+  </div>
 
 </body>
 </html>
